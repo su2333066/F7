@@ -1,0 +1,112 @@
+.matchListContainer {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  margin-bottom: 100px;
+}
+
+.matchList {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.itemContainer {
+  list-style: none;
+}
+
+.itemContainer .item__wrap {
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 20px 15px;
+}
+
+.itemContainer h3 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.itemContainer span {
+  font-size: 11px;
+  color: #999;
+  margin-top: 3px;
+}
+
+.itemTime {
+  width: 15%;
+  font-weight: 700;
+  text-align: center;
+  font-size: 15px;
+}
+
+.itemInfo {
+  width: 62%;
+  padding-right: 10px;
+}
+
+.itemStatus {
+  width: 20%;
+}
+
+.matchStatus {
+  width: 100%;
+  text-align: center;
+  padding: 8px 5px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.matchStatus.isFull {
+  color: #ccc;
+  background-color: #eeeeee;
+}
+
+.matchStatus.myMatch {
+  border: 4px solid yellow;
+  color: green;
+  font-weight: bold;
+}
+
+.matchStatus.isHurry {
+  color: white;
+  background-color: #1570ff;
+}
+
+.yes {
+  cursor: pointer;
+}
+
+.navRight_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navSearch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px 6px;
+  background-color: #f2f5f7;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+
+.navSearch > input {
+  color: #3e5463;
+  vertical-align: super;
+  line-height: 24px;
+  font-size: 14px;
+}
+
+.logout {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+.back {
+  position: absolute;
+}

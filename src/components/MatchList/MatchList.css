@@ -1,0 +1,37 @@
+.level_type {
+  width: 80px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 80px;
+  font-weight: 700;
+}
+
+.level_1 {
+  color: #1570ff;
+  background-color: #e6ecf1;
+  font-weight: 700 !important;
+}
+
+.level_2 {
+  color: #ffcf0a;
+  background-color: #00b46c;
+  font-weight: 700 !important;
+}
+
+.level_3 {
+  color: #afdbff;
+  background-color: #1570ff;
+  font-weight: 700 !important;
+}
+
+.level_4 {
+  color: #ffcf0a;
+  background-color: #ff4d37;
+  font-weight: 700 !important;
+}
+
+.level_5 {
+  color: #ff4d37;
+  background-color: #870b22;
+  font-weight: 700 !important;
+}

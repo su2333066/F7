@@ -1,0 +1,18 @@
+{
+  "cwd": "/Users/gisu/Documents/Documents/프로젝트/F7react",
+  "type": [
+    "web"
+  ],
+  "name": "Portfolio",
+  "framework": "react",
+  "template": "blank",
+  "bundler": "vite",
+  "cssPreProcessor": false,
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkMode": false,
+    "iconFonts": true
+  },
+  "customBuild": false
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "ad_id": 1,
+    "ad_src": "/images/sample1.png"
+  },
+  {
+    "ad_id": 2,
+    "ad_src": "/images/sample2.png"
+  },
+  {
+    "ad_id": 3,
+    "ad_src": "/images/sample3.png"
+  }
+]
