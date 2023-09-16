@@ -1,16 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-const session = require('express-session');
-const mysql = require('mysql2');
+const express = require("express");
+const cors = require("cors");
+const session = require("express-session");
+const mysql = require("mysql2");
 const port = 4000;
 const app = express();
 const db = mysql.createPoolCluster();
-const cron = require('node-cron');
+const cron = require("node-cron");
 
 app.use(express.json());
 app.use(
   session({
-    secret: 'SECRET',
+    secret: "SECRET",
     resave: false,
     saveUninitialized: true,
   })
@@ -23,25 +23,25 @@ app.use(
   })
 );
 
-db.add('portfolio', {
-  host: 'localhost',
-  user: 'root',
-  password: '@keasoo30',
-  database: 'portfolio',
-  port: 3306,
+db.add("football_project", {
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "football_project",
+  port: 3308,
 });
 
 function 디비실행(query) {
   return new Promise(function (resolve, reject) {
-    db.getConnection('portfolio', function (error, connection) {
+    db.getConnection("football_project", function (error, connection) {
       if (error) {
-        console.log('디비 연결 오류', error);
+        console.log("디비 연결 오류", error);
         reject(true);
       }
 
       connection.query(query, function (error, data) {
         if (error) {
-          console.log('쿼리 오류', error);
+          console.log("쿼리 오류", error);
           reject(true);
         }
 
@@ -55,29 +55,29 @@ function 디비실행(query) {
 
 let loginUser = {};
 
-app.get('/users', (req, res) => {
+app.get("/users", (req, res) => {
   res.json(loginUser || false);
 });
 
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const { id, password } = req.body;
 
   const result = {
-    code: 'success',
-    message: '로그인 되었습니다',
+    code: "success",
+    message: "로그인 되었습니다",
     login: false,
   };
 
-  if (id === '') {
-    result.code = 'fail';
-    result.message = '아이디 또는 비밀번호를 입력해주세요';
+  if (id === "") {
+    result.code = "fail";
+    result.message = "아이디 또는 비밀번호를 입력해주세요";
     res.send(result);
     return;
   }
 
-  if (password === '') {
-    result.code = 'fail';
-    result.message = '아이디 또는 비밀번호를 입력해주세요';
+  if (password === "") {
+    result.code = "fail";
+    result.message = "아이디 또는 비밀번호를 입력해주세요";
     res.send(result);
     return;
   }
@@ -89,16 +89,16 @@ app.post('/login', async (req, res) => {
   const userID = await 디비실행(`SELECT * FROM user WHERE id='${id}'`);
 
   if (user.length === 0) {
-    result.code = 'fail';
-    result.message = '비밀번호를 다시 입력해주세요';
+    result.code = "fail";
+    result.message = "비밀번호를 다시 입력해주세요";
   }
 
   if (userID.length === 0) {
-    result.code = 'fail';
-    result.message = '사용자가 존재하지 않습니다';
+    result.code = "fail";
+    result.message = "사용자가 존재하지 않습니다";
   }
 
-  if (result.code === 'fail') {
+  if (result.code === "fail") {
     res.send(result);
     return;
   }
@@ -110,38 +110,38 @@ app.post('/login', async (req, res) => {
   res.send(result);
 });
 
-app.post('/logout', (req, res) => {
+app.post("/logout", (req, res) => {
   // req.session.destroy();
   loginUser = {};
-  res.send('로그아웃 되었습니다');
+  res.send("로그아웃 되었습니다");
 });
 
-app.post('/join', async (req, res) => {
+app.post("/join", async (req, res) => {
   const { id, name, level, password } = req.body;
 
   const result = {
-    code: 'success',
-    message: '회원가입 되었습니다',
+    code: "success",
+    message: "회원가입 되었습니다",
   };
 
-  if (id === '') {
-    result.code = 'fail';
-    result.message = '아이디를 입력해주세요';
+  if (id === "") {
+    result.code = "fail";
+    result.message = "아이디를 입력해주세요";
   }
 
-  if (password === '') {
-    result.code = 'fail';
-    result.message = '비밀번호를 입력해주세요';
+  if (password === "") {
+    result.code = "fail";
+    result.message = "비밀번호를 입력해주세요";
   }
 
   const user = await 디비실행(`SELECT * FROM user WHERE id='${id}'`);
 
   if (user.length > 0) {
-    result.code = 'fail';
-    result.message = '이미 동일한 아이디가 존재합니다';
+    result.code = "fail";
+    result.message = "이미 동일한 아이디가 존재합니다";
   }
 
-  if (result.code === 'fail') {
+  if (result.code === "fail") {
     res.send(result);
     return;
   }
@@ -153,7 +153,7 @@ app.post('/join', async (req, res) => {
   res.send(result);
 });
 
-app.get('/match', async (req, res) => {
+app.get("/match", async (req, res) => {
   if (loginUser === undefined) {
     return;
   }
@@ -164,26 +164,26 @@ app.get('/match', async (req, res) => {
   res.send(matchList);
 });
 
-app.post('/match', async (req, res) => {
+app.post("/match", async (req, res) => {
   const { place, address, time, memo, level } = req.body;
 
   const result = {
-    code: 'success',
-    message: '매치가 등록 되었습니다',
+    code: "success",
+    message: "매치가 등록 되었습니다",
   };
 
   if (
-    place === '' ||
-    address === '' ||
-    time === '' ||
-    memo === '' ||
-    level === ''
+    place === "" ||
+    address === "" ||
+    time === "" ||
+    memo === "" ||
+    level === ""
   ) {
-    result.code = 'fail';
-    result.message = '모두 작성해주세요';
+    result.code = "fail";
+    result.message = "모두 작성해주세요";
   }
 
-  if (result.code === 'fail') {
+  if (result.code === "fail") {
     res.send(result);
     return;
   }
@@ -195,33 +195,33 @@ app.post('/match', async (req, res) => {
   res.send(result);
 });
 
-app.post('/match/apply', async (req, res) => {
+app.post("/match/apply", async (req, res) => {
   const { seq } = req.body;
 
   const {
-    loginUser: { seq: loginUserSeq = '1' },
+    loginUser: { seq: loginUserSeq = "1" },
   } = req.session;
 
   const result = {
-    code: 'success',
-    message: '신청되었습니다',
+    code: "success",
+    message: "신청되었습니다",
   };
 
-  let [{ attend_user_seq = '' }] = await 디비실행(
+  let [{ attend_user_seq = "" }] = await 디비실행(
     `SELECT * FROM matching WHERE seq = '${seq}'`
   );
 
-  if (attend_user_seq !== '') {
+  if (attend_user_seq !== "") {
     const 참여자번호 = attend_user_seq
-      .split('/')
+      .split("/")
       .filter((item) => {
-        return item !== '';
+        return item !== "";
       })
-      .join(',');
+      .join(",");
 
     if (참여자번호.includes(loginUserSeq)) {
-      result.code = 'fail';
-      result.message = '이미 신청하였습니다';
+      result.code = "fail";
+      result.message = "이미 신청하였습니다";
       res.send(result);
       return;
     }
@@ -239,29 +239,29 @@ app.post('/match/apply', async (req, res) => {
   res.send(result);
 });
 
-app.post('/match/cancel', async (req, res) => {
+app.post("/match/cancel", async (req, res) => {
   const { seq } = req.body;
 
   const {
-    loginUser: { seq: loginUserSeq = '1' },
+    loginUser: { seq: loginUserSeq = "1" },
   } = req.session;
 
   const result = {
-    code: 'success',
-    message: '취소되었습니다',
+    code: "success",
+    message: "취소되었습니다",
   };
 
-  let [{ attend_user_seq = '' }] = await 디비실행(
+  let [{ attend_user_seq = "" }] = await 디비실행(
     `SELECT * FROM matching WHERE seq = '${seq}'`
   );
 
-  let attendData = attend_user_seq.split('/');
+  let attendData = attend_user_seq.split("/");
   attendData.pop();
-  let newAttendData = '';
+  let newAttendData = "";
 
   attendData.map((attendUserSeq) => {
     if (Number(attendUserSeq) !== loginUserSeq) {
-      newAttendData += attendUserSeq + '/';
+      newAttendData += attendUserSeq + "/";
     }
   });
 
@@ -275,12 +275,12 @@ app.post('/match/cancel', async (req, res) => {
   res.send(result);
 });
 
-app.post('/match/delete', async (req, res) => {
+app.post("/match/delete", async (req, res) => {
   const { seq, loginUserSeq } = req.body;
 
   const result = {
-    code: 'success',
-    message: '삭제되었습니다',
+    code: "success",
+    message: "삭제되었습니다",
   };
 
   await 디비실행(
@@ -290,13 +290,13 @@ app.post('/match/delete', async (req, res) => {
   res.send(result);
 });
 
-app.post('/match/:seq', async (req, res) => {
+app.post("/match/:seq", async (req, res) => {
   const seq = req.params.seq;
   const { place, address, time, memo, level } = req.body;
 
   const result = {
-    code: 'success',
-    message: '수정되었습니다',
+    code: "success",
+    message: "수정되었습니다",
   };
 
   await 디비실행(
@@ -306,17 +306,17 @@ app.post('/match/:seq', async (req, res) => {
   res.send(result);
 });
 
-app.get('/detail/:seq', async (req, res) => {
+app.get("/detail/:seq", async (req, res) => {
   const seq = req.params.seq;
   const data = await 디비실행(`SELECT * FROM matching WHERE seq = '${seq}'`);
 
   res.send(data[0]);
 });
 
-app.post('/search', async (req, res) => {
+app.post("/search", async (req, res) => {
   const result = {
-    code: 'success',
-    message: '검색을 완료했습니다',
+    code: "success",
+    message: "검색을 완료했습니다",
   };
 
   let { searchKeyword } = req.body;
@@ -326,8 +326,8 @@ app.post('/search', async (req, res) => {
   let special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
 
   if (special_pattern.test(searchKeyword) == true) {
-    result.code = 'fail';
-    result.message = '특수문자 또는 공백이 입력되었습니다.';
+    result.code = "fail";
+    result.message = "특수문자 또는 공백이 입력되었습니다.";
     res.send(result);
     return;
   }
@@ -341,8 +341,8 @@ app.post('/search', async (req, res) => {
 });
 
 // 0 0 */6 * * * -> 6시간 마다
-cron.schedule('0 0 */6 * * *', async function () {
-  console.log('6시간 마다 작업 실행');
+cron.schedule("0 0 */6 * * *", async function () {
+  console.log("6시간 마다 작업 실행");
 
   // 마감매칭목록 매칭
   const 자동매치목록 = await 디비실행(
@@ -359,9 +359,9 @@ cron.schedule('0 0 */6 * * *', async function () {
     const 방번호 = 자동매치값.seq;
 
     const 참여자번호 = 자동매치값.attend_user_seq
-      .split('/')
+      .split("/")
       .filter((item) => {
-        return item !== '';
+        return item !== "";
       })
       .join("','");
 
@@ -391,8 +391,8 @@ cron.schedule('0 0 */6 * * *', async function () {
 });
 
 // 0 0 */1 * * * -> 1시간 마다
-cron.schedule('0 0 */1 * * *', async function () {
-  console.log('1시간 마다 작업 실행 :', new Date().toString());
+cron.schedule("0 0 */1 * * *", async function () {
+  console.log("1시간 마다 작업 실행 :", new Date().toString());
 
   // 매칭 하루전 마감매칭목록으로 변경
   const 마감매칭목록 = await 디비실행(
@@ -406,10 +406,10 @@ cron.schedule('0 0 */1 * * *', async function () {
   for (let key in 마감매칭목록) {
     const 마감매칭값 = 마감매칭목록[key];
 
-    let matchtry = 'DEL';
+    let matchtry = "DEL";
 
     if (마감매칭값.date_diff === 1) {
-      matchtry = 'NO';
+      matchtry = "NO";
     }
 
     const query = `UPDATE matching SET matchtry='${matchtry}' WHERE seq='${마감매칭값.seq}'`;
@@ -419,5 +419,5 @@ cron.schedule('0 0 */1 * * *', async function () {
 });
 
 app.listen(port, () => {
-  console.log('서버가 실행되었습니다');
+  console.log("서버가 실행되었습니다");
 });
